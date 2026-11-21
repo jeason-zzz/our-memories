@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#eaf3df" />
+  <meta name="description" content="从一座小小的车站出发，走进只属于我们的回忆城堡。" />
+  <title>只属于我们的城堡</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23e7efde'/%3E%3Cpath d='M12 52V28h10V16l10-10 10 10v12h10v24H12' fill='%23eab4b8' stroke='%233c6457' stroke-width='3'/%3E%3Cpath d='M27 52V40a5 5 0 0 1 10 0v12' fill='%23fff8e8'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="./style.css?v=20261118-5" />
+</head>
+<body>
+  <main id="game" aria-label="我们的回忆城堡 3D 游戏">
+    <canvas id="world" aria-label="3D 童话世界" tabindex="0"></canvas>
+    <div class="vignette" aria-hidden="true"></div>
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="回到首页"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M5 30V15h7V8l6-5 6 5v7h7v15H5Z"/><path d="M15 30v-8a3 3 0 0 1 6 0v8M9 11v5M27 11v5M18 7v4"/></svg><span>我们的回忆城堡<small>OUR LITTLE WORLD</small></span></a>
+      <div class="top-actions"><button id="sound" class="icon-button" title="开启音乐" aria-label="开启音乐" aria-pressed="false">♪<span class="sound-slash"></span></button><button id="help" class="icon-button" title="操作说明" aria-label="操作说明">?</button><button id="fullscreen" class="icon-button" title="全屏" aria-label="全屏">⛶</button></div>
+    </header>
+    <section id="welcome" class="welcome">
+      <div class="welcome-copy"><div class="eyebrow"><span></span> A LITTLE JOURNEY, JUST FOR YOU</div><h1>把我们的日子，<br>藏进一座<span>城堡。</span></h1><p>从一座小小的车站出发，<br>走过的每一步，都通向我们的回忆。</p><button id="start" class="button primary">开始游戏 <span>→</span></button><button id="resume" class="text-button" hidden>继续上一次的旅程 ↗</button><div class="journey-note"><span class="tiny-star">✦</span> 不用赶路，慢慢走就好。</div></div>
+      <div class="boarding-pass" aria-hidden="true"><div class="ticket-stamp">9<span>¾</span></div><div><small>ONE WAY TICKET TO</small><b>我们的回忆城堡</b><span>下一站 · 有你的地方</span></div><div class="ticket-flower">✿</div></div>
+      <div class="welcome-bottom"><span>一场只属于我们的奇妙漫游</span><span><kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd> 移动 <i></i><kbd>空格</kbd> 跳跃</span></div>
+    </section>
+    <section id="wardrobe" class="wardrobe panel" hidden aria-label="角色装扮">
+      <div class="eyebrow">BE YOUR LOVELY SELF</div><h2>今天的你，<br>想是什么模样？</h2><p class="muted">挑一身喜欢的，带着好心情出发。</p>
+      <div id="custom-options"></div>
+      <button id="depart" class="button primary wide">换好啦，出发！ <span>→</span></button><button id="back-title" class="text-button">返回首页</button>
+      <span class="wardrobe-note">拖动人物可以转一转看看</span>
+    </section>
+    <aside id="hud" class="hud" hidden>
+      <div class="location-card"><span class="location-icon">⌖</span><div><small id="area-small">THE JOURNEY BEGINS</small><b id="area-name">九又四分之三站台</b></div></div>
+      <button id="collection" class="collection-card" aria-label="打开回忆手册"><span class="book-icon">♡</span><span><small>收集我们的点点滴滴</small><b><span id="count">0</span><em> / 20</em></b></span><svg viewBox="0 0 40 40"><circle class="progress-track" cx="20" cy="20" r="16"/><circle id="progress-ring" cx="20" cy="20" r="16"/><path d="m17 14 6 6-6 6"/></svg></button>
+      <div id="chapter-note" class="chapter-note">沿着花园小径，去城堡看看吧。</div>
+      <div class="controls-hint"><span><kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd> / WASD 移动</span><span><kbd>空格</kbd> 跳跃</span><span><kbd>E</kbd> 互动</span><button id="camera-toggle">镜头 ↻</button></div>
+      <div class="mobile-controls"><div class="dpad"><button data-dir="ArrowUp" aria-label="向上">↑</button><button data-dir="ArrowLeft" aria-label="向左">←</button><button data-dir="ArrowDown" aria-label="向下">↓</button><button data-dir="ArrowRight" aria-label="向右">→</button></div><button id="mobile-jump" aria-label="跳跃">跳跃</button></div>
+      <div class="right-actions"><button id="transform" class="transform-button" hidden><span class="dog-face">✧</span><span id="transform-label">一起变身</span><small>小白 & 小鸡毛</small></button></div>
+      <button id="interact" class="interact" hidden><kbd>E</kbd><span id="interact-label">走进城堡</span><span>↗</span></button>
+      <div id="minimap" class="minimap"><canvas id="map-canvas" width="240" height="240" aria-label="城堡回忆点地图"></canvas><span>我们的回忆地图</span></div>
+    </aside>
+    <div id="toast" class="toast" role="status" hidden></div>
+    <div id="scene-fade" class="scene-fade" aria-hidden="true"><span>下一站，有你的地方。<small>OUR LITTLE WORLD</small></span></div>
+    <div id="loading" class="loading"><span class="loading-flower">✿</span><p>正在把小世界装进口袋…</p></div>
+    <div id="overlay" class="overlay" hidden>
+      <section id="album" class="album dialog" hidden role="dialog" aria-modal="true" aria-labelledby="album-title"><button class="close" data-close aria-label="关闭相册">×</button><div class="album-heading"><span id="album-room" class="eyebrow"></span><span id="album-number" class="page-number"></span></div><div class="album-layout"><div class="album-story"><div class="paper-flower">✿</div><h2 id="album-title"></h2><div class="short-line"></div><p id="album-text"></p><span class="album-caption">每一个平凡的日子，都因为你而闪闪发光。</span><button id="album-done" class="button primary">把这段回忆放进口袋 <span>♡</span></button></div><div id="photo-wall" class="photo-wall"></div></div><div class="album-footer"><span>OUR DAYS, OUR STORIES</span><span>♡ <span id="album-count"></span></span></div></section>
+      <section id="milestone" class="milestone dialog" hidden role="dialog" aria-modal="true" aria-labelledby="milestone-title"><button class="close" data-close aria-label="继续旅程">×</button><div class="milestone-art" id="milestone-art"></div><div class="eyebrow" id="milestone-eyebrow"></div><h2 id="milestone-title"></h2><p id="milestone-text"></p><button id="milestone-continue" class="button primary">一起继续走吧 <span>→</span></button></section>
+      <section id="collection-panel" class="collection-panel dialog" hidden role="dialog" aria-modal="true" aria-labelledby="collection-title"><button class="close" data-close aria-label="关闭回忆手册">×</button><div class="eyebrow">OUR MEMORY BOOK</div><h2 id="collection-title">一页一页，都是我们。</h2><p class="muted">亮起的回忆可以再次翻阅。其余的，去城堡里慢慢遇见。</p><div id="memory-grid" class="memory-grid"></div><div class="collection-footer"><span id="collection-progress"></span><button id="reset-progress" class="text-button">重新开启旅程</button></div></section>
+      <section id="help-panel" class="help-panel dialog" hidden role="dialog" aria-modal="true" aria-labelledby="help-title"><button class="close" data-close aria-label="关闭说明">×</button><div class="eyebrow">A TINY FIELD GUIDE</div><h2 id="help-title">慢慢走，就会遇见。</h2><div class="help-rows"><p><span><kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd> / WASD</span>在小世界里走动</p><p><span><kbd>空格</kbd></span>开心地跳一下</p><p><span><kbd>E</kbd> / 点击提示</span>靠近回忆点，翻开相册</p><p><span><kbd>M</kbd></span>打开回忆手册</p><p><span><kbd>V</kbd> / 镜头 ↻</span>切换远近镜头</p><p><span><kbd>Esc</kbd></span>收起相册或说明</p></div><p class="help-note">城堡里的回忆没有先后顺序，也没有时间限制。手机上可以使用屏幕方向键和跳跃按钮。旅程会自动保存在当前浏览器中。</p></section>
+      <section id="ending" class="ending dialog" hidden role="dialog" aria-modal="true" aria-labelledby="ending-title"><div class="ending-stars">✦ <span>♡</span> ✦</div><div class="eyebrow">ALL THE WAY, WITH YOU</div><div class="age">29<sup>♡</sup></div><h2 id="ending-title">宝宝，生日快乐！</h2><p>和你一起走过的每一天，<br>都是我想珍藏的好日子。</p><div class="ending-wish">愿你的 29 岁，被快乐和爱轻轻包围。<br>下一段旅程，也想和你手牵手。</div><span class="complete-stamp">✧ 回忆收集完成 · 通关啦 ✧</span><button id="revisit" class="button primary">牵着手，再逛一次城堡 <span>→</span></button><button id="ending-book" class="text-button">翻翻我们的回忆相册</button></section>
+      <section id="photo-viewer" class="photo-viewer dialog" hidden role="dialog" aria-modal="true" aria-label="查看照片"><button id="photo-close" class="close" aria-label="返回相册">×</button><button id="photo-prev" class="photo-nav" aria-label="上一张">←</button><img id="full-photo" alt="我们的回忆照片"/><button id="photo-next" class="photo-nav" aria-label="下一张">→</button><span id="photo-counter"></span></section>
+    </div>
+    <canvas id="confetti" aria-hidden="true"></canvas>
+  </main>
+  <script type="module" src="./game.js?v=20261118-5"></script>
+  <noscript>请开启浏览器 JavaScript，进入我们的回忆城堡。</noscript>
+</body>
+</html>
